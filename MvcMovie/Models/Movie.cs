@@ -8,8 +8,8 @@ namespace MvcMovie.Models
     {
         public int Id { get; set; }
 
-        [StringLength(60, MinimumLength =3)]
-        [Required]
+        [StringLength(60, ErrorMessage ="Este campo requiere entre 3 y 60 caracteres", MinimumLength =3)]
+        [Required(ErrorMessage ="El Titulo de la Pelicula es dato Mandatorio")]
         public string? Titulo { get; set; }
 
         [Display(Name = "Fecha de Lanzamiento")]

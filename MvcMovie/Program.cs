@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcMovie.Data;
 using MvcMovie.Models;
 using MvcMovie.Models.SeedData;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcMovieContext>(options =>
@@ -12,6 +14,20 @@ builder.Services.AddDbContext<MvcMovieContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en-US"),
+    new CultureInfo("fr")
+};
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture= new RequestCulture("en-US"),
+    SupportedCultures=supportedCultures,
+    SupportedUICultures=supportedCultures
+});
+
 
 
 using (var scoppe= app.Services.CreateScope())
@@ -35,8 +51,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-//app.UseRequestLocalization("en-UY", "fr-FR");
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
